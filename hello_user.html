@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hello</title>
+    <script src="../angular.js"></script>
+    <script type="text/javascript">
+        var module1 = angular.module("hello", []);
+        var helloController = function ($scope) {
+            $scope.name = "Srikanth";
+        };
+
+        module1.controller(helloController);
+
+    </script>
+</head>
+<body ng-app="hello">
+    <div ng-controller="helloController">
+        Name : <input type="text" ng-model="name" />
+        <p/>
+        <h1>{{name}}, Hello World!</h1>
+    </div>
+</body>
+</html>
