@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sum Numbers</title>
+    <script src="../angular.js"></script>
+    <script type="text/javascript">
+        var module1 = angular.module("numbers", []);
+        var numbersController = function ($scope) {
+            $scope.first = 0;
+            $scope.second = 0;
+
+            $scope.sum = function () {
+                return window.parseInt($scope.first) + window.parseInt($scope.second);
+            };
+        };
+
+        module1.controller("numbersControllers");
+    </script>
+</head>
+
+<body ng-app="numbers">
+    <h1>Add Number</h1>
+    <div ng-controller="numbersController">
+        First Number : <input type="text"  ng-model="first" />
+        Second Number : <input type="text" ng-model="second" />
+        <p/>
+        <div style="color:red;font-weight:bold"> Sum :  {{ sum()  }}</div>
+    </div>
+
+</body>
+</html>
