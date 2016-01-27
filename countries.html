@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Countries</title>
+    <script src="angular.js"></script>
+    <script type="text/javascript">
+        var module1 = angular.module("countries", []);
+        var cc = function () {
+            this.countries =
+                [ { name: 'India', capital: 'Delhi' },
+                  { name: 'China', capital: 'Bejing' }
+                ];
+
+            this.name = "";
+            this.capital="";
+
+            this.add = function() {
+               this.countries.push( {name : this.name, capital : this.capital});
+            };
+
+        };
+
+        module1.controller("countriesController",cc);
+    </script>
+</head>
+<body ng-app="countries">
+    <div ng-controller="countriesController as ctrl">
+        <ul>
+            No. of countries : {{ ctrl.countries.length }}
+            <li ng-repeat="c in ctrl.countries">
+                {{ c.name}} - {{ c.capital}}
+            </li>
+
+            <h3>Add Country </h3>
+            Name : <input type="text" ng-model="ctrl.name"/>
+            Capital : <input type="text" ng-model="ctrl.capital"/>
+            <button ng-click="ctrl.add()">Add Country </button>
+        </ul>
+    </div>
+
+</body>
+</html>
