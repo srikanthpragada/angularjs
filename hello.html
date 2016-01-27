@@ -2,20 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Hello</title>
-    <script src="../angular.js"></script>
+    <script src="angular.js"></script>
     <script type="text/javascript">
         var module1 = angular.module("hello", []);
-        var helloController = function ($scope) {
-            $scope.hello = "Hello World!";
+        var helloController = function () {
+            this.message = "Hello World!";
         };
 
-        module1.controller(helloController);
+         module1.controller("hello", helloController);
 
     </script>
 </head>
 <body ng-app="hello">
-    <div ng-controller="helloController">
-        <h1>{{ hello }}</h1>
+    <div ng-controller="hello as ctrl">
+        <h1>{{ ctrl.message }}</h1>
     </div>
 </body>
 </html>
