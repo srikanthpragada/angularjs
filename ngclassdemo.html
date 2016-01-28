@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hello</title>
+    <style>
+        .red { color :red}
+        .green { color :green }
+        .strike { text-decoration :  line-through}
+        .italic { font-style:italic}
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+        var module1 = angular.module("app", []);
+        var ctrl = function ($scope) {
+            $scope.myClass = 'red';
+            $scope.red = function () {
+                $scope.myClass = "red";
+            };
+            $scope.green = function () {
+                $scope.myClass = "green";
+            };
+        };
+        module1.controller("ctrl",['$scope', ctrl]);
+    </script>
+</head>
+<body ng-app="app">
+    <div ng-controller="ctrl">
+        Using Map Syntax
+        <h1 ng-class="{'strike' : strike, 'italic' : italic}">Srikanth Technologies</h1>
+        Using Array and Map syntax
+        <h1 ng-class="[myClass, {'strike' : strike, 'italic' : italic}]">Srikanth Technologies</h1>
+
+        <input type="checkbox" ng-model="strike" /> Strike 
+        <input type="checkbox" ng-model="italic" /> Italic 
+
+        <p/>
+
+        <button ng-click="red()">Red</button>
+        <button ng-click="green()">Green</button>
+    </div>
+</body>
+</html>
