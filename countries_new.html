@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Countries</title>
+    <style>
+        .ng-binding { color :blue}
+    </style>
+    <script src="../angular.js"></script>
+    <script type="text/javascript">
+        var module1 = angular.module("countries", []);
+        var cc = function ($scope) {
+            $scope.countries =
+                [ { name: 'India', capital: 'Delhi' },
+                  { name: 'China', capital: 'Bejing' }
+                ];
+            $scope.name = "";
+            $scope.capital = "";
+
+            $scope.countryIndex = function (name) {
+                for( idx = 0;  idx < $scope.countries.length; idx++)
+                {
+                    country = $scope.countries[idx];
+                    if (country.name === name) {
+                        return idx;
+                    }
+                }
+                return -1;  // not found 
+            };
+
+            $scope.add = function () {
+                var pos = $scope.countryIndex($scope.name);
+                if (pos === -1)  // name not found
+                    $scope.countries.push({ name: $scope.name, capital: $scope.capital });
+                else
+                    alert("Sorry! Country already exists!");
+            };
+            $scope.delete = function (name) {
+                var result = confirm("Do you really want to delete country [" + name + "] ?");
+                if (!result)
+                    return;
+                var pos = $scope.countryIndex(name);
+                $scope.countries.splice(pos, 1);
+            };  // delete 
+        };
+        module1.controller("cc", ["$scope",cc]);
+    </script>
+</head>
+<body ng-app="countries">
+    <div ng-controller="cc">
+        <ul>
+            No. of countries : {{ countries.length }}
+            <li ng-repeat="c in countries">
+                {{ c.name}} - {{ c.capital}}
+                <button ng-click="delete(c.name)">Delete</button>
+            </li>
+        </ul>
+
+        <h3>Add Country </h3>
+        Name : <input type="text" ng-model="name" />
+        Capital : <input type="text" ng-model="capital" />
+        <button ng-click="add()">Add Country </button>
+
+    </div>
+
+</body>
+</html>
