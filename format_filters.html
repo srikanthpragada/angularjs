@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+        angular.module("test", [])
+        .controller("TestController", function ($scope) {
+            $scope.today = new Date();
+            $scope.month = "December";
+            $scope.course = { Name : 'Angular JS', Duration : 20, Price : 3000 };
+          }
+        );
+    </script>
+</head>
+<body ng-app="test">
+      <div ng-controller="TestController">
+          {{ today | date :"dd MMM yyyy" }}
+          <p/>
+          {{ month | uppercase }}
+          <p/>
+          {{ course.Price | currency : 'Rs ' : 2}}
+          <p/>
+          {{ course | json }}
+      </div>
+
+</body>
+</html>
