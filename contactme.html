@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .big {
+            font-size: 20pt;
+        }
+        .redwhite {
+            background-color: red;
+            color: white;
+        }
+        .yellowblue {
+            background-color: yellow;
+            color: blue;
+        }
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+        var app = angular.module("test", []);
+
+        var controller = function($scope) {
+            $scope.email = true;
+            $scope.mobile = true;
+            $scope.contact = true;
+        };
+
+        app.controller("TestController", ["$scope",controller]);
+
+    </script>
+</head>
+<body ng-app="test">
+    <div ng-controller="TestController">
+        <input type="checkbox" ng-model="contact" /> Contact Me
+        <p />
+        <input type="checkbox" ng-model="email" ng-checked="contact" ng-disabled="!contact" />
+        Email Adress  <input ng-model="emailAddress" ng-disabled="!email ||  !contact" />
+        <p />
+        <input type="checkbox" ng-model="mobile" ng-checked="contact" ng-disabled="!contact" />
+        Mobile Number   <input ng-model="mobileNumber" ng-disabled="!mobile ||  !contact" />
+    </div>
+
+</body>
+</html>
