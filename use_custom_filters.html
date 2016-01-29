@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+
+    </style>
+    <script src="../angular.js"></script>
+    <script src="filters.js"></script>
+    <script>
+        angular.module("test", ['myfilters'])
+        .controller("TestController", function ($scope) {
+            $scope.today = new Date();
+            $scope.name = "AngularJS";
+        }
+      );
+
+    </script>
+</head>
+<body ng-app="test">
+    <div ng-controller="TestController">
+        {{ name | brackets | uppercase}}
+        <p/>
+        <h1>  {{ today | mytime }}  </h1>
+        <h1>  {{ today | mydate }}  </h1>
+
+        <h1>  {{ today | mydate : '/' }}  </h1>
+    </div>
+
+</body>
+</html>
