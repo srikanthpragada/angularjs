@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+        angular.module("test", [])
+        .filter("curly", 
+               function() {
+                   return function (input) {
+                       return '{' + input + '}';
+                   };
+               }
+        )
+        .controller("TestController", function ($scope) {
+            $scope.today = new Date();
+            $scope.name = "AngularJS";
+        }
+      );
+
+    </script>
+</head>
+<body ng-app="test">
+    <div ng-controller="TestController">
+        {{ name | curly | uppercase}}
+    </div>
+
+</body>
+</html>
