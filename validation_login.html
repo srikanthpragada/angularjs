@@ -15,6 +15,9 @@
     controller("LoginController", function ($scope) {
         $scope.username = "";
         $scope.password = "";
+        $scope.process = function () {
+            alert("Form has been submitted! Will go to login process...");
+        }
     });
 
 </script>
@@ -23,9 +26,9 @@
 <body ng-app="login">
     <h2>Login</h2>
 
-     <form action="/login" name="loginForm" method="post" 
+     <form name="loginForm" method="post"  action="login"
            ng-controller="LoginController" novalidate 
-           ng-submit="alert('form submitted')" >
+           ng-submit="process()">
          Username <br/>
          <input type="text" 
                 id="username"
