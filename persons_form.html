@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="App">
+<head>
+    <title>Dependents</title>
+    <script src="../angular.js"></script>
+    <script>
+        var mod = angular.module("App", []);
+        mod.controller("DependendsController", 
+        function ($scope) {
+
+            $scope.persons = [];
+            
+            for (i = 1; i <= 4; i++) {
+                var p = { Id: i, Name: '', Gender :'', Age : ''};
+                $scope.persons.push(p);
+            }
+
+            $scope.show = function () {
+                var sum = 0; 
+                for(i in $scope.persons)
+                {
+                    sum += parseInt($scope.persons[i].Age);
+                }
+                alert(sum / 4);
+            }
+        }
+        );
+    </script>
+</head>
+<body ng-controller="DependendsController">
+
+    <h2>Dependends</h2>
+
+    <table>
+        <tr>
+            <th>Serial No.</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+        </tr>
+        <tr ng-repeat="p in persons">
+            <td>
+                <div>{{ p.Id}}</div>
+            </td>
+            <td>
+                <input type="text" ng-model="p.Name" id="Name" />
+            </td>
+            <td>
+                <input type="text" ng-model="p.Gender" id="Gender" />
+            </td>
+            <td>
+                <input type="text" ng-model="p.Age" id="Age" />
+            </td>
+           
+        </tr>
+    </table>
+
+    <p/>
+    <button ng-click="show()">Average Age</button>
+
+
+</body>
+</html>
+
