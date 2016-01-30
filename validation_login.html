@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        #username.ng-invalid { color :red}
+        #password.ng-dirty.ng-invalid   {
+            border: solid red 2px;
+        }
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+    angular.module("login", []).
+
+    controller("LoginController", function ($scope) {
+        $scope.username = "";
+        $scope.password = "";
+    });
+
+</script>
+
+</head>
+<body ng-app="login">
+    <h2>Login</h2>
+
+     <form action="/login" name="loginForm" method="post" 
+           ng-controller="LoginController" novalidate 
+           ng-submit="alert('form submitted')" >
+         Username <br/>
+         <input type="text" 
+                id="username"
+                name="username" ng-model="username"   
+                required ng-minlength="4"
+                ng-maxlength="10"/>
+         <span ng-show="loginForm.username.$invalid && loginForm.username.$dirty">Username must be 4 to 10 chars</span>
+         <p/>
+         Password <br />
+         <input type="password" id="password"
+                name="password" ng-model="password" 
+                required 
+                ng-minlength="4" 
+                ng-maxlength="10" />
+         <p/>
+             
+         <input type="submit" value="Login" 
+                ng-disabled="loginForm.$invalid || loginForm.$pristine" />
+         <p/>
+
+         Username : {{ username }}, Password : {{ password }}
+         <p/>
+         Submitted : {{loginForm.$submitted}}
+
+         <span ng-show="loginForm.$submitted">Form has been submitted!</span>
+
+     </form>
+</body>
+</html>
