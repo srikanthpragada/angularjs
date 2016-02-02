@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Customer Service Demo</title>
+    <script src="../angular.js"></script>
+    <script src="myservices.js"></script>
+    
+</head>
+<body ng-controller="DateController">
+      <h2>Year :  {{year}} </h2>
+      <h2>Message :  {{message}} </h2> 
+      <h2>{{ time }}</h2>
+      <h2>{{ fulltime }}</h2>
+      <button ng-click="changeMessage()">Change Message</button>
+      
+</body>
+</html>
