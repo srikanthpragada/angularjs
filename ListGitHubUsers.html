@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>List of GitHub Users</title>
+    <style>
+        .myimage { width:300px; height:300px}
+    </style>
+    <script src="../angular.js"></script>
+
+    <script type="text/javascript">
+            var app = angular.module("githubviewer", []);
+            // controller 
+            
+            var ctrl  = function ($scope, $http) {
+                var onSuccess = function (response) {
+                    $scope.users = response.data;
+                };
+
+                var onError = function (error) {
+                    alert("Sorry! Could not get details from GitHub!");
+                };
+
+                $http.get("https://api.github.com/users").then(onSuccess, onError);
+
+            };
+
+            app.controller("ctrl", ["$scope", "$http", ctrl]);
+    </script>
+</head>
+<body ng-app="githubviewer">
+    <div ng-controller="ctrl">
+         <h2>Users</h2>
+         <div ng-repeat="user in users">
+             <h3>{{ user.login}}</h3>
+             <img ng-src="{{user.avatar_url}}" class="myimage" />
+         </div>
+    </div>
+   
+</body>
+</html>
