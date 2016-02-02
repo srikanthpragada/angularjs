@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>List of GitHub Users</title>
+    <style>
+        .myimage { width:300px; height:300px}
+    </style>
+    <script src="../angular.js"></script>
+
+    <script type="text/javascript">
+            var app = angular.module("githubviewer", []);
+            // controller 
+            
+            var ctrl = function ($scope, $http) {
+                $scope.username = "srikanthpragada";
+                var onSuccess = function (response) {
+                    $scope.repos = response.data;
+                };
+
+                var onError = function (error) {
+                    alert("Sorry! Could not get details from GitHub!");
+                };
+
+                $scope.getRepos = function () {
+                    $http.get("https://api.github.com/users/" + $scope.username + "/repos").then(onSuccess, onError);
+                }
+
+            };
+
+            app.controller("ctrl", ["$scope", "$http", ctrl]);
+    </script>
+</head>
+<body ng-app="githubviewer">
+    <div ng-controller="ctrl">
+         <h2>List of Repostories</h2>
+         <input type="text" placeholder="Username" ng-model="username" /> 
+         <button ng-click="getRepos()">Get Repos</button>
+         <p/>
+        <ul>
+            <li ng-repeat="repo in repos">
+                <a href="{{repo.html_url}}">{{repo.name}}</a>
+            </li>
+        </ul>
+    </div>
+   
+</body>
+</html>
