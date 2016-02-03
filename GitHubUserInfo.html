@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>GitHub User Viewer</title>
+    <script src="../angular.js"></script>
+    <script src="../angular-resource.js"></script>
+
+    <script type="text/javascript">
+        
+            var app = angular.module("githubviewer", ['ngResource']);
+            // controller 
+            var fun = function ($scope, $resource) {
+                var Github = $resource("https://api.github.com/users");
+                Github.query(
+                           {}, // param data 
+                           function (data) {  // success function 
+                               $scope.users = data;
+                           }
+                           ,
+                           function (data) { // error function
+                               alert("Sorry! Could not get details!");
+                           }
+                     );
+            };
+            app.controller("GHViewerController", ["$scope", "$resource", fun]);
+    </script>
+</head>
+<body ng-app="githubviewer">
+    <div ng-controller="GHViewerController">
+        <h2>GitHub Uses</h2>
+
+        <ul>
+            <li ng-repeat="user in users">
+                <a href="{{user.html_url}}">{{ user.login}} </a>
+            </li>
+        </ul>
+
+ 
+   </div>
+</body>
+</html>
