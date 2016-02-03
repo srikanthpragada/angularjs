@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>GitHub User Viewer</title>
+    <script src="../angular.js"></script>
+    <script src="../angular-resource.js"></script>
+
+    <script type="text/javascript">
+        
+            var app = angular.module("countries", ['ngResource']);
+            // controller 
+            var fun = function ($scope, $resource) {
+                var Countries = $resource("https://restcountries.eu/rest/v1/all");
+                Countries.query(
+                           {}, // param data 
+                           function (data) {  // success function 
+                               $scope.countries = data;
+                           }
+                           ,
+                           function (data) { // error function
+                               alert("Sorry! Could not get details!");
+                           }
+                );
+
+                $scope.search = function (c, idx) {
+                    return c.name.indexOf($scope.name) >= 0;
+                };
+            };
+            app.controller("CountriesController", ["$scope", "$resource", fun]);
+    </script>
+</head>
+<body ng-app="countries">
+    <div ng-controller="CountriesController">
+        <h2>List of Countries</h2>
+        Search <input type="text" ng-model="name"/>
+        <ul>
+            <li ng-repeat="country in countries | filter : search ">
+                {{country.name}}  -  {{ country.capital}} - {{ country.alpha3Code}}
+            </li>
+        </ul>
+        <p/>
+
+        <!--
+        Select Country : 
+        <select>
+            <option ng-repeat="country in countries" value="{{ country.alpha3Code}}">
+                {{country.name}}
+            </option>
+        </select>
+        -->
+   </div>
+</body>
+</html>
