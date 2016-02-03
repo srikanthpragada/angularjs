@@ -10,32 +10,41 @@
             var app = angular.module("githubviewer", ['ngResource']);
             // controller 
             var fun = function ($scope, $resource) {
-                var Github = $resource("https://api.github.com/users");
-                Github.query(
-                           {}, // param data 
+                $scope.done = false; 
+                $scope.getDetails = function () {
+                    $scope.found = $scope.notfound = false;
+                    var Github = $resource("https://api.github.com/users/:user");
+                    Github.get(
+                           { user: $scope.username },  // param data 
                            function (data) {  // success function 
-                               $scope.users = data;
+                               $scope.user = data;
+                               $scope.found = true;
+                               // get repo details 
                            }
                            ,
                            function (data) { // error function
-                               alert("Sorry! Could not get details!");
+                               $scope.notfound = true; 
                            }
                      );
-            };
+                }
+             };
             app.controller("GHViewerController", ["$scope", "$resource", fun]);
     </script>
 </head>
 <body ng-app="githubviewer">
     <div ng-controller="GHViewerController">
-        <h2>GitHub Uses</h2>
+         <h2>GitHub User Viewer</h2>
+         Enter username : <input type="text" ng-model="username" /> 
+         <button ng-click="getDetails()">Get Details</button>
 
-        <ul>
-            <li ng-repeat="user in users">
-                <a href="{{user.html_url}}">{{ user.login}} </a>
-            </li>
-        </ul>
-
- 
-   </div>
+        <p/>
+        <div ng-show="found">
+            <h2 ng-bind="user.name"></h2>
+            <h3 ng-bind="user.created_at"></h3>
+            <img ng-src="{{ user.avatar_url}}" />
+        </div>
+        <p/>
+        <h3 ng-show="notfound">Sorry! User not found!</h3>
+    </div>
 </body>
 </html>
