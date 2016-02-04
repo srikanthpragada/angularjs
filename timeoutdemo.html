@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script>
+        var module1 = angular.module("timeoutDemo", []);
+        var timeoutController = function ($scope,$interval) {
+        	$scope.promise=null;
+            $scope.start = function () {
+            	$scope.seconds = 60;
+                $scope.remainingTime = "00:00";
+                $scope.value = "";
+                // if promise is not null then cancel interval
+                if ($scope.promise)
+                	$interval.cancel($scope.promise);
+                
+                $scope.promise = $interval($scope.updateTime, 1000);
+            };
+            
+            $scope.showTime = function()
+            {
+            	var mins =  Math.floor($scope.seconds / 60);
+            	var secs =  $scope.seconds % 60;
+            	var strmins = mins;
+            	if ( mins < 10)
+            		 strmins= "0" + mins;
+            	var strsecs = secs;
+            	if ( secs < 10)
+            		 strsecs= "0" + secs;
+            	      
+            	return  strmins + ":" + strsecs;
+            }
+
+            $scope.updateTime = function () {
+                $scope.remainingTime = $scope.showTime();
+                $scope.seconds --;
+                if ( $scope.seconds == 0)
+                {
+                	$interval.cancel($scope.promise);
+                	alert("Sorry! Timeout!");
+                }
+            }
+            $scope.start();
+        };
+
+        module1.controller("timeoutController",
+        		 timeoutController, ['$interval']);
+
+
+    </script>
+</head>
+<body ng-app="timeoutDemo">
+    <div ng-controller="timeoutController">
+       
+       <h3> {{ remainingTime }}</h3>
+       <p/>
+       <input type="text" id="txtName" ng-model="value" />
+       <button ng-click="start()"> Next </button>
+
+    </div>
+</body>
+</html>
