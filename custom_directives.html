@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script>
+    var app = angular.module('app', []);
+    
+    app.controller('Controller', ['$scope', function ($scope) {
+        $scope.today = new Date().toString();
+    }]);
+
+    app.directive('stMobile', function () {
+        return {
+            restrict: 'E',
+            replace : true,
+            template: '<h2>9059057000</h2>'
+        };
+    });
+    
+    app.directive('stEmail', function () {
+        return {
+            restrict: 'A',
+            template: 'srikanth@srikanthtechnologies.com'
+        };
+    });
+
+    </script> 
+</head>
+<body ng-app="app">
+    <div ng-controller="Controller">
+        <data-st-mobile></data-st-mobile>    
+        <st-mobile></st-mobile>   
+        <span st-email></span>
+    </div>
+</body>
+</html>
