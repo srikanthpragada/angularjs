@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Scopes Demo</title>
+    <script src="../angular.js"></script>
+    <script>
+
+        var module = angular.module("scopedemo", []);
+
+        module.controller("FirstController",
+            function ($scope, $rootScope) {
+        	    $rootScope.count = 0;
+                $scope.message = "Message in FirstController";
+                $rootScope.common_message = "Message in rootscope";
+
+                $scope.show = function () {
+                    alert($scope.message);
+
+                };
+
+                $scope.change = function () {
+                    $rootScope.common_message = $scope.message;
+                }
+                $scope.inc = function () {
+                    $rootScope.count++; 
+                }
+            });
+
+        module.controller('SecondController',
+        	function ($scope, $rootScope) {
+                 $scope.message = "Message in SecondController!";
+                 $scope.msg = "Abc";
+                 $rootScope.msg = "XYZ";
+                 $scope.dec = function () {
+                     $rootScope.count --; 
+                 }
+           }
+        );
+    </script>
+</head>
+<body ng-app="scopedemo">
+    <h3>$rootScope : {{ common_message }} </h3>
+    <h3>{{ count }} </h3></h2>
+    <div ng-controller="FirstController">
+        {{ message }}
+        <p />
+        New Message  : <input type="text" name="message" ng-model="message" />
+        <p />
+        <button ng-click="change()">Change Message </button>
+        <p />
+
+        <button ng-click="show()">Show Message</button>
+        <button ng-click="inc()">Increment</button>
+    </div>
+
+    <hr />
+    <div ng-controller="SecondController">
+        $scope.message  = {{ message }}!
+        <p/>
+        $rootScope.message = {{ common_message }}
+        <p/>
+        <button ng-click="dec()">Decrement</button>
+    </div>
+
+
+
+</body>
+</html>
