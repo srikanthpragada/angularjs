@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hello</title>
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
+    <link href="jquery-ui.css" rel="stylesheet" />
+    <script src="../angular.js"></script>
+    <script>
+        angular.module("trans", []).
+        controller("TransController", function ($scope) {
+            $scope.transdate = new Date().toLocaleDateString();
+            $("#transdate").datepicker
+                (
+                   {
+
+                       changeYear: true,
+                       changeMonth: true,
+                       showAnim: "fold",
+                       dateFormat: "yy-mm-dd"
+                   }
+                );
+        });
+    </script>
+
+</head>
+<body ng-app="trans">
+    <div ng-controller="TransController">
+        <h2>jQuery UI and AngularJS</h2>
+        <p />
+        Transaction date you selected is  {{ transdate }}
+        <p />
+
+        Select Transaction Date :
+         <input type="text" id="transdate" ng-model="transdate" />
+
+
+    </div>
+</body>
+</html>
