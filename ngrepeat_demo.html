@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script>
+        var module = angular.module("demo", []);
+
+        module.controller("DemoController",
+         function ($scope) {
+             $scope.names = ["Scott", "Tom", "Bob", "Tim"];
+             $scope.name = "";
+             $scope.add = function () {
+                 $scope.names.push($scope.name);
+             };
+        });
+ 
+    </script>
+</head>
+<body ng-app="demo">
+    <div ng-controller="DemoController">
+         <h3 ng-repeat="n in names">
+             {{ n }}
+         </h3>
+
+         Name : <input type="text" ng-model="name" />
+         <button ng-click="add()">Add</button>
+
+    </div>
+
+</body>
+</html>
