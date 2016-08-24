@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script>
+        var module = angular.module("demo", []);
+
+        module.controller("DemoController", function ($scope) {
+            $scope.qty = 0;
+            $scope.price = 0;
+            $scope.clear = function () {
+                $scope.qty = 0;
+                $scope.price = 0;
+            };
+        });
+
+    </script>
+</head>
+<body ng-app="demo">
+    <h2>Sales Amount Calculation</h2>
+    <div ng-controller="DemoController">
+       Quanity : <input type="text" ng-model="qty"/>
+       Price : <input type="text" ng-model="price" />
+       <p/>
+       <button ng-click="clear()">Reset</button>
+       <h3 ng-hide="qty == 0 || price == 0">
+           Sales Amount : {{ qty * price }}
+       </h3>
+    </div>
+</body>
+</html>
