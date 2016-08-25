@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .redwhite { background-color : red; color : white }
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+        angular.module("test", [])
+        .controller("TestController", function ($scope) {
+            $scope.online = false; 
+            $scope.names = ["JavaScript", "Angular", 'jQuery', 'Backbone', 'Knockout'];
+            $scope.courses =
+                     [{ name: 'Java Language', duration: 40 , online : false},
+                      { name: 'MS.NET (C# and Asp.Net)', duration: 100 , online : false},
+                      { name: 'jQuery, AngularJS', duration: 20, online : true },
+                      { name: 'Oracle', duration: 30, online : true }];
+
+            $scope.longCourses = function (c, idx) {
+                return c.duration > 25;
+            };
+
+            $scope.moreThan10 = function (n, idx) {
+                return n.length >= 10;
+            };
+
+            $scope.courseType = function (c, idx) {
+                if ($scope.online)
+                    return c.online; // include only online courses
+                else
+                    return true;  // include all 
+                
+            };
+          }
+        );
+    </script>
+</head>
+<body ng-app="test">
+      <div ng-controller="TestController">
+          <div ng-repeat="n in names | limitTo : 3 | orderBy ">
+              {{ n }}
+          </div>
+
+          <p/>
+          <div ng-repeat="n in names | filter : moreThan10">
+              {{ n }}
+          </div>
+
+
+          <p/>
+
+          <table border="1">
+              <tr>
+                  <th>Course </th>
+                  <th>Duration</th>
+              </tr>
+
+              <tr ng-repeat="c in courses | filter: longCourses | orderBy :  'duration' : 'reverse' "
+                  ng-class-even="'redwhite'">
+                  <td> {{ c.name }}</td>
+                  <td> {{ c.duration }}</td>
+              </tr>
+          </table>
+
+          <p/>
+
+          <table border="1">
+              <tr>
+                  <th>Course </th>
+                  <th>Duration</th>
+              </tr>
+
+              <tr ng-repeat="c in courses | filter : courseType">
+                  <td> {{ c.name }}</td>
+                  <td> {{ c.duration }}</td>
+              </tr>
+          </table>
+          <input type="checkbox" ng-model="online" />Show only online courses
+      </div>
+
+</body>
+</html>
