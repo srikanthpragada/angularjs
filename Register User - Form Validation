@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        #fields .ng-invalid {
+            border: solid red 2px;
+        }
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+
+        angular.module("register", []).
+
+        controller("RegisterController", function ($scope) {
+            $scope.username = "";
+            $scope.password = "";
+            $scope.confirmPassword = "";
+            $scope.mobile = "";
+
+            // $scope.messages = [];
+
+            $scope.process = function () {
+                $scope.messages = [];
+
+                if ($scope.form.$invalid) {
+
+                    if ($scope.form.username.$invalid)
+                        $scope.messages.push("Username must be between 4 to 10 chars");
+
+                    if ($scope.form.password.$invalid)
+                        $scope.messages.push("Password must be between 4 to 10 chars!");
+
+                    if ($scope.form.mobile.$error.pattern)
+                        $scope.messages.push("Mobile number must contain 10 digits digits!");
+
+                }
+                else
+                {
+
+                    if ($scope.password != $scope.confirmPassword) {
+                        $scope.messages.push("Password and confirm password do not match!");
+                        return;
+                    }
+                    $scope.form.submit();
+                }
+
+
+            }// process()
+        });
+
+    </script>
+
+</head>
+<body ng-app="register">
+    <h2>Registration</h2>
+
+    <form name="form" ng-controller="RegisterController" novalidate  ng-submit="process()">
+        <div id="fields">
+            Username <br />
+            <input type="text" class="field" name="username" ng-model="username" 
+                   required ng-minlength="4" ng-maxlength="10" />
+            <p />
+            Password <br />
+            <input type="password" id="password" name="password" ng-model="password"
+                    required ng-minlength="4" ng-maxlength="10" />
+            <p />
+            Confirm Password <br />
+            <input type="password" name="confirmPassword" ng-model="confirmPassword" required ng-minlength="4" ng-maxlength="10" />
+
+            <p />
+            Mobile Number  <br />
+            <input type="text" name="mobile" ng-model="mobile" ng-pattern="/[0-9]{10}/"  
+                   required  maxlength="10" />
+            <p />
+            <input type="submit" value="Register" />
+        </div>
+        <p />
+        <div>
+            <ul>
+                <li ng-repeat="msg in messages">
+                    {{ msg }}
+                </li>
+            </ul>
+        </div>
+
+        <div> {{ username }}</div>
+        <div> {{ password }}</div>
+        <div> {{ confirmPassword }}</div>
+        <div> {{ mobile }}</div>
+
+    </form>
+</body>
+</html>
