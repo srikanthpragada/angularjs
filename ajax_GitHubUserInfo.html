@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+
+    <script type="text/javascript">
+            var app = angular.module("githubviewer", []);
+            // controller 
+            
+            var ctrl = function ($scope, $http) {
+                $scope.userid = "srikanthpragada";
+                $scope.error = false;
+                var onSuccess = function (response) {
+                    $scope.login = response.data.login;
+                    $scope.imageurl = response.data.avatar_url;
+                    $scope.created = response.data.created_at;
+                    $scope.location = response.data.location;
+                    $scope.error = false;
+                };
+
+                var onError = function (error) {
+                    $scope.error = true;
+                    if (error.status == 404)
+                        $scope.result = "Sorry! User not found!";
+                    else
+                        $scope.result = "Sorry! Error : " + error.statusText;
+                    
+                };
+
+                $scope.getDetails = function () {
+                    $http.get("https://api.github.com/users/" + $scope.userid)
+                         .then(onSuccess, onError);
+                }
+
+            };
+
+            app.controller("ctrl", ["$scope", "$http", ctrl]);
+    </script>
+</head>
+<body ng-app="githubviewer">
+    <div ng-controller="ctrl">
+         Userid : <input type="text" ng-model="userid" />
+         <button ng-click="getDetails()">Get Details</button>
+         <p/>
+
+         <div ng-show="!error">
+           <h2>{{login}}</h2>
+           <h3>{{location}}</h3>
+           <h3>{{created}}</h3>
+           <img ng-src="{{imageurl}}" />
+         </div>
+
+         <div ng-show="error">Error  : {{result}}</div>
+    </div>
+   
+</body>
+</html>
