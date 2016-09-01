@@ -1,0 +1,211 @@
+questions.json
+===============
+[
+  { "question" : "Which  of the following is true about AngularJS?",
+    "ans1" : "JavaScript Library",
+	"ans2" : "MVC Framework in Javascript",
+	"ans3" : "CSS Framework",
+	"ans" : "",
+	"cans" : "2"
+  },
+    { "question" : "Which of the following is used to contain code that is common to multiple controllers?",
+    "ans1" : "Module",
+	"ans2" : "Service",
+	"ans3" : "Directive",
+	"ans" : "",
+	"cans" : "2"
+  },
+    { "question" : "Which directive is used for two-way binding?",
+    "ans1" : "ng-bind",
+	"ans2" : "ng-change",
+	"ans3" : "ng-model",
+	"ans" : "",
+	"cans" : "3"
+  },
+    { "question" : "Which of the following is used to select controller and template based on URL?",
+    "ans1" : "Routing",
+	"ans2" : "AJAX",
+	"ans3" : "Filters",
+	"ans" : "",
+	"cans" : "1"
+  }
+
+]
+
+exam.html
+=========
+<!DOCTYPE html>
+<html ng-app="exam">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script src="app.js"></script>
+    <style>
+        .header {
+            color:red;
+            font-weight:bold;
+            font-family:Verdana;
+            font-size:14pt;
+        }
+        .question {
+            padding-top :  5px;
+            padding-bottom: 5px;
+            background-color: black;
+            color: white;
+            font-size: 14pt;
+            font-family: Arial;
+        }
+        .answer {
+            color:blue;
+            font-size:14pt;
+            font-family:arial;
+        }
+
+        .result {
+            background-color:blue;
+            color:white;
+            font-weight :bold;
+        }
+
+    </style>
+</head>
+<body ng-controller="ExamController">
+
+    <div ng-show="progress">
+        <div class="header">Question :  {{ pos +1 + "/" + length }}</></div>
+        <p/>
+        <div class="question">
+           <pre>{{ question.question}}</pre>
+        </div>
+        <p />
+        <div class="answer">
+            <input type="radio" ng-model="question.ans" value="1" />  {{ question.ans1}}
+            <p/> 
+            <input type="radio" ng-model="question.ans" value="2" /> {{ question.ans2}} 
+            <p/>
+            <input type="radio" ng-model="question.ans" value="3" /> {{ question.ans3}} 
+        </div>
+
+        <p />
+        <button ng-click="next()" ng-disabled="isLast()">Next</button>
+        <button ng-click="prev()" ng-disabled="isFirst()">Previous</button>
+        <button ng-click="process()">Finish</button>
+    </div>
+    <div ng-hide="progress">
+
+        <div class="question">Examination Result </div>
+        <p/>
+        <div class="answer">
+            <table>
+                <tr>
+                    <td>
+                        Total no. of questions 
+                    </td>
+                    <td class="result">
+                        {{ length }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        No. of correct answers 
+                    </td>
+                    <td class="result">
+                        {{correctCount}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Result 
+                    </td>
+                    <td class="result">
+                        {{ result }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p/>
+        <button ng-click="takeExam()">Retake Exam</button>
+    </div>
+</body>
+</html>
+
+app.js
+======
+'use strict';
+
+var app = angular.module('exam', []);
+
+app.controller("ExamController",
+
+    function ($scope, $http, $log) {
+        $scope.question = {};
+        var config = {
+            method: 'get',
+            url: 'questions.json'
+        };
+
+        $scope.takeExam = function () {
+            $http(config).
+                  success(function (data) {
+                      $scope.progress = true;
+                      $scope.questions = data;
+                      $scope.length = data.length;
+                      $scope.pos = 0;
+                      $scope.correctCount = 0;
+                      $scope.question = $scope.questions[$scope.pos];
+                  }).
+                   error(function (data, status, headers, config) {
+                       $log.info('Error --> ' + data);
+                       $scope.error = status;
+                   });
+        }
+
+
+        //  functions
+        $scope.next = function () {
+            if ($scope.pos == $scope.length - 1)
+                return;
+
+            $scope.pos++;
+            $scope.question = $scope.questions[$scope.pos];
+        }
+
+        $scope.prev = function () {
+            if ($scope.pos == 0)
+                return;
+
+            $scope.pos--;
+            $scope.question = $scope.questions[$scope.pos];
+        }
+
+        $scope.isFirst = function () {
+            return $scope.pos == 0;
+        }
+
+        $scope.isLast = function () {
+            return $scope.pos == $scope.length - 1;
+        }
+
+        $scope.process = function () {
+            // take confirmation from user
+            var res = confirm("Do you really want to examination and ")
+            $scope.correctCount = 0;
+            for (var idx in $scope.questions) {
+                var q = $scope.questions[idx];
+                if (q.ans == q.cans)
+                    $scope.correctCount++;
+            }
+
+            if ($scope.correctCount >= $scope.length / 2)
+                $scope.result = "Passed";
+            else
+                $scope.result = "Failed";
+
+            $scope.progress = false;
+        }
+        $scope.takeExam(); 
+    }
+);
+
+
